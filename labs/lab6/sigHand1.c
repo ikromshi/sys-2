@@ -12,8 +12,7 @@
  */
 
 /* Create the function for responding to signals */
-static void
-sigint_handler (int signum)
+static void sigint_handler (int signum)
 {
   /* Length is hard-coded at 19; write signum into spaces */
   char buffer[] = "Received signal   \n";
@@ -26,11 +25,10 @@ sigint_handler (int signum)
     }
   /* Must use write(), because it is asynchronous-safe */
   write (STDOUT_FILENO, buffer, 19);
-  exit (0);
+  //exit (0);
 }
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
   /* Create a sigaction and link it to the handler */
   struct sigaction sa;
