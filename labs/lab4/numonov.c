@@ -1,4 +1,5 @@
 /**
+ * LEVEL II
  * Author: Ikrom Numonov;
  * Date Modified: Oct 25, 2023;
  * Program purpose: This program deals with concurrency in the context of web servers;
@@ -6,7 +7,10 @@
  *      request_process function while forking the process off. The child process reads a corresponding html
  *      file and sends it to standard out with the input included;
  *
- *
+ * IMPORTANT: While running the program, you will notice that you can provide an input even before the program 
+ *      asks or prints out the prompt for the input after the first run. I don't think this is a bug, but rather is
+ *      a side effect of the fact that the child process's output and the parent process's output are both being 
+ *      written to the standard out at the same time.
  */
 #include <string.h>
 #include <sys/wait.h>

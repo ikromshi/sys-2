@@ -1,4 +1,8 @@
-
+/**
+ * Author: Ikrom Numonov;
+ * Date Modified: Nov 8, 2023;
+ * Purpose: This program deals with synchronizaation between process signals;
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +15,7 @@
 #define STDOUT_FILENO 1
 #define MAX 5
 
+// linked list of jobs;
 struct jobs
 {
   int pid;
@@ -19,6 +24,7 @@ struct jobs
 
 struct jobs *head, *tail;
 
+// Initializes the linked list of jobs;
 void initjobs(){
     head = (struct jobs *)malloc(sizeof(struct jobs));
     tail = head;
@@ -26,6 +32,7 @@ void initjobs(){
     head->next = NULL;
 }
 
+// Adds a job to the linked list given its PID;
 void addjob(int pid){
   struct jobs *nextJob = (struct jobs *)malloc(sizeof(struct jobs));
   tail->next = nextJob;
@@ -34,6 +41,7 @@ void addjob(int pid){
   tail = nextJob;
 }
 
+// Deletes a job from the linked list given its PID;
 void deletejob(int pid){
   int found = 0;
   struct jobs *nextJob = head;
@@ -59,6 +67,7 @@ void deletejob(int pid){
   }
 }
 
+// Prints the remaining jobs in the linked list;
 void printJobs(){
   struct jobs *nextJob = head;
   nextJob = head->next;
@@ -69,6 +78,7 @@ void printJobs(){
   }
 }
 
+// The custom signal handler function for signals;
 void handler(int sig)
 {
   int olderrno = errno;
