@@ -41,7 +41,6 @@ if (child_pid == 0)
     int sum = 0;
 
     while (1) {
-      printf("Child running\n");
       bytes_read = read (p2cfd[0], buffer, 10);
       if (bytes_read <= 0)
         exit (0);
@@ -49,16 +48,15 @@ if (child_pid == 0)
       int number = atoi(buffer);
       sum += number;
 
-      printf ("Child received: the number '%d'\n", number);
       if (sum < 100) {
-        printf("Current sum: %d\n", sum);
+        printf("Child's current sum: %d\n", sum);
         strncpy(buffer, "more", sizeof(buffer));
         write(c2pfd[1], buffer, sizeof(buffer));
       }
       else if (sum >= 100) {
         strncpy(buffer, "goodbye", sizeof(buffer));
         write(c2pfd[1], buffer, sizeof(buffer));
-        printf("Child exiting\n");
+        printf("\nChild's sum at least 100;\nChild exiting\n");
         exit(0);
       }
     }
@@ -71,9 +69,9 @@ if (child_pid == 0)
   srand((unsigned) time(&time_seed));
   int random_number = (rand() % 20) + 1;
 
-  /* Parent sends 'hello' and waits */
-  strncpy (buffer, "10", sizeof (buffer));
-  printf ("Parent is sending '%s'\n", buffer);
+  /* Parent sends first message and waits */
+  sprintf (buffer, "%d", random_number);
+  printf ("Parent is sending %d\n", random_number);
   write (p2cfd[1], buffer, sizeof (buffer));
   
 
@@ -84,9 +82,7 @@ if (child_pid == 0)
       exit (1); /* should receive response */
     printf ("Parent received: '%s'\n", buffer);
 
-    printf("Parent running\n");
     if (strncmp(buffer, "more", sizeof(buffer)) == 0) {
-      printf("Parent received 'more' from child\n");
       random_number = rand() % 20 + 1;
       sprintf(buffer, "%d", random_number);
       printf("Parent sending a random number: %d\n", random_number);
